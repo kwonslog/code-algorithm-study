@@ -19,13 +19,13 @@ public class Utils {
 	}
 
 	//int[] 오름차순
-	public static int[] intToASC(int[] array) {
-		return IntStream.of(array).boxed().sorted(Comparator.reverseOrder()).mapToInt(Integer::intValue).toArray();
-	}
-
-	//int[] 내림차순
 	public static int[] intToDESC(int[] array) {
 		return IntStream.of(array).boxed().sorted().mapToInt(Integer::intValue).toArray();
+	}
+
+	//int[]  내림차순
+	public static int[] intToASC(int[] array) {
+		return IntStream.of(array).boxed().sorted(Comparator.reverseOrder()).mapToInt(Integer::intValue).toArray();
 	}
 
 	public void solutionLine3() throws Exception {
