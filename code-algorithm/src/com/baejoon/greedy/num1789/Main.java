@@ -1,33 +1,38 @@
-
+package com.baejoon.greedy.num1789;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-/*
- * 복사해서 가져다 쓰기 위한 템플릿용 클래스
- */
 public class Main {
 
-	private void execute(int in1) {
+	private void execute(long in1) {
+		//11
+		//1 + 2 + 3 + 4 + 5
 
-		System.out.println(-1);
+		long sum = 0;
+		long result = 0;
+		for( long i=1; i<=in1; i++ ) {
+			sum += i;
+			if( sum == in1 ) {
+				result = i;
+				break;
+			} else if( sum > in1 ) {
+				result = i-1;
+				break;
+			}
+		}
+
+		System.out.println(result);
 	}
 
 	public void solution() throws Exception {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = null;
-		int in1;
-		int in2;
-		int in3;
+		long in1;
 		st = new StringTokenizer(br.readLine());
-		in1 = Integer.parseInt(st.nextToken());
-		st = new StringTokenizer(br.readLine());
-		in2 = Integer.parseInt(st.nextToken());
-		st = new StringTokenizer(br.readLine());
-		in3 = Integer.parseInt(st.nextToken());
-
+		in1 = Long.parseLong(st.nextToken());
 		execute(in1);
 	}
 
