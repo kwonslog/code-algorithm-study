@@ -29,122 +29,66 @@ public class Main {
 		Arrays.sort(lost);
 		Arrays.sort(reserve);
 
-		int[] psbStd = new int[n];
-		Arrays.fill(psbStd, 1);
+		//1순위. 여분이 있는 사람이 도난 당한 경우 여분과 도난에서 제거
+		int[] lt = Arrays.stream(lost).filter(v1 -> !Arrays.stream(reserve).anyMatch(v2 -> v1 == v2)).toArray();
+		int[] rv = Arrays.stream(reserve).filter(v1 -> !Arrays.stream(lost).anyMatch(v2 -> v1 == v2)).toArray();
 
-		for( int i=0; i<lost.length; i++ ) {
-			psbStd[lost[i]-1] = 0;
+		answer = n - lt.length;
+		System.out.println("n - lt.length: " + answer);
+		for( int i=0; i<lt.length; i++ ) {
+			System.out.print(lt[i] + " ");
 		}
-
-		Arrays.stream(psbStd).forEach(System.out::print);
+		System.out.println("");
+		for( int i=0; i<rv.length; i++ ) {
+			System.out.print(rv[i] + " ");
+		}
 		System.out.println("");
 
-		for( int i=0; i<reserve.length; i++ ) {
-			int f = (reserve[i] - 1) - 1;
-			int b = (reserve[i] + 1) - 1;
 
-			if( f < 0 ) f = 0;
-			if( b >= psbStd.length ) b = b-1;
+		//2순위 도난번호-1, 도난번호+1 값을 구한다.
+		for( int i=0; i<lt.length; i++ ) {
 
-			if( psbStd[f] == 0 ) {
-				psbStd[f] = 1;
-			} else if( psbStd[b] == 0 ) {
-				psbStd[b] = 1;
+			int a1 = lt[i] - 1; //1
+			int b1 = lt[i] + 1; //3
+
+			for( int j=0; j<rv.length; j++ ) {
+				if( rv[j] == 0 ) continue;
+				System.out.println("rv[" + j + "]: " + rv[j]);
+				
+				//3순위 값이 여분에 있으면 수업 가능.
+				if( rv[j] == a1 || rv[j] == b1 ) {
+					answer++;
+					rv[j] = 0;
+					break;
+				}
 			}
 		}
-
-		Arrays.stream(psbStd).forEach(System.out::print);
-		System.out.println("");
-		for( int i=0; i<psbStd.length; i++ ) {
-			answer += psbStd[i] == 1 ? 1:0;
-		}
-
-		System.out.println(answer);
-
-        return answer;
-    }
-
-	public int solution2(int n, int[] lost, int[] reserve) {
-
-		//체육수업가능한 최대 학생수 구하기
-		int answer = 0;
-
-		Arrays.sort(lost);
-		Arrays.sort(reserve);
-
-		int[] psbStd = new int[n];
-		Arrays.fill(psbStd, 1);
-
-		//n = 5
-		//idx   = 0 1 2 3 4
-		//value = 1 2 3 4 5
-
-
-		//lost = 2 4
-		//idx  = 2 4
-		for( int i=0; i<lost.length; i++ ) {
-			psbStd[lost[i]-1] = 0;
-		}
-
-		Arrays.stream(psbStd).forEach(System.out::print);
-		System.out.println("");
-
-		//reserve = 1 3 5
-		//1 = 0,1,2
-		//3 = 2,3,4
-		//5 = 4,5,6
-
-		for( int i=0; i<reserve.length; i++ ) {
-			int f = reserve[i] - 1;
-			int m = reserve[i];
-			int b = reserve[i] + 1;
-
-//			for( int j=0; j<psbStd.length; j++ ) {
-//				if( f == 0 ) continue;
-//				if( b > psbStd.length ) continue;
-
-			if( f != 0 && psbStd[f - 1] == 0) {
-				psbStd[f - 1] = 1;
-			} else if( b < psbStd.length && psbStd[b - 1] == 0 ) {
-				psbStd[b - 1] = 1;
-			} else if( psbStd[m - 1] == 0 ) {
-				psbStd[m - 1] = 1;
-			}
-		}
-
-		Arrays.stream(psbStd).forEach(System.out::print);
-		System.out.println("");
-
-		for( int i=0; i<psbStd.length; i++ ) {
-			answer += psbStd[i];
-		}
-
 		System.out.println(answer);
 
         return answer;
     }
 
 	public static void main(String[] args) throws Exception {
-//		int n = 5;
-//		int[] lost = new int[] {2,4};
-//		int[] reserve = new int[] {1,3,5};
+		int n = 5;
+		int[] lost = new int[] {2,4};
+		int[] reserve = new int[] {1,3,5};
 
-//		int n = 5;
-//		int[] lost = new int[] {2,4};
-//		int[] reserve = new int[] {3};
+		// int n = 5;
+		// int[] lost = new int[] {2,4};
+		// int[] reserve = new int[] {3};
 
-		int n = 3;
-		int[] lost = new int[] {3};
-		int[] reserve = new int[] {1};
+		// int n = 3;
+		// int[] lost = new int[] {3};
+		// int[] reserve = new int[] {1};
 
-//		int n = 5;
-//		int[] lost = new int[] {1,2,3,4,5};
-//		int[] reserve = new int[] {1,2,3,5};
+		// int n = 5;
+		// int[] lost = new int[] {1,2,3,4,5};
+		// int[] reserve = new int[] {1};
 
 //		int n = 8;
 //		int[] lost = new int[] {3};
 //		int[] reserve = new int[] {1,5};
 
-		new Main().solution2(n, lost, reserve);
+		new Main().solution(n, lost, reserve);
 	}
 }
